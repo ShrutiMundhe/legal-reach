@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom'; // <--- Import useLocation
 import './FindLawyers.css';
 
-// Dummy Data (In a real app, this comes from a database)
+// ... (Keep your allLawyers array exactly the same as before) ...
 const allLawyers = [
   { id: 1, name: "Adv. Amit Sharma", location: "Pune", category: "Criminal", experience: "12 years", fees: "₹2000/hr" },
   { id: 2, name: "Adv. Priya Desai", location: "Mumbai", category: "Family", experience: "8 years", fees: "₹1500/hr" },
@@ -12,20 +12,25 @@ const allLawyers = [
 ];
 
 const FindLawyers = () => {
-  const [searchTerm, setSearchTerm] = useState("");
+  const location = useLocation(); // Hook to get data passed from Hero
+  
+  // Initialize search term with passed data OR empty string
+  const [searchTerm, setSearchTerm] = useState(location.state?.query || "");
   const [selectedCategory, setSelectedCategory] = useState("All");
 
+  // ... (Rest of your component stays exactly the same) ...
   // Filter Logic
   const filteredLawyers = allLawyers.filter(lawyer => {
     return (
       (selectedCategory === "All" || lawyer.category === selectedCategory) &&
-      (lawyer.name.toLowerCase().includes(searchTerm.toLowerCase()) || lawyer.location.toLowerCase().includes(searchTerm.toLowerCase()))
+      (lawyer.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
+       lawyer.location.toLowerCase().includes(searchTerm.toLowerCase()) || 
+       lawyer.category.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   });
 
   return (
     <div className="find-lawyers-container">
-      
       {/* Sidebar Filters */}
       <div className="filters-sidebar">
         <h3>Filters</h3>
@@ -40,6 +45,8 @@ const FindLawyers = () => {
           />
         </div>
 
+        {/* ... Keep the rest of your JSX exactly the same ... */}
+        
         <div className="filter-group">
           <label>Category</label>
           <select onChange={(e) => setSelectedCategory(e.target.value)}>
@@ -66,16 +73,16 @@ const FindLawyers = () => {
               <p>📍 {lawyer.location}</p>
               <p>💼 {lawyer.experience} Experience</p>
               <p>💰 {lawyer.fees}</p>
-             <Link to={`/lawyer/${lawyer.id}`}>
-               <button className="view-profile-btn">View Profile</button>
-             </Link>
+              
+              <Link to={`/lawyer/${lawyer.id}`}>
+                <button className="view-profile-btn">View Profile</button>
+              </Link>
             </div>
           ))}
           
           {filteredLawyers.length === 0 && <p>No lawyers found matching your criteria.</p>}
         </div>
       </div>
-
     </div>
   );
 };

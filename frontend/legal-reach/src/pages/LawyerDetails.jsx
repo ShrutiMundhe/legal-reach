@@ -1,64 +1,97 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
+import React, { useState } from 'react'; // Add useState
+import { useParams, useNavigate } from 'react-router-dom'; // Add useNavigate
 import './LawyerDetails.css';
 
 const LawyerDetails = () => {
-  const { id } = useParams(); // Get the ID from the URL
+  const { id } = useParams();
+  const navigate = useNavigate(); // Hook to move pages
 
-  // In a real app, you would fetch data from backend using this ID.
-  // For now, we will just simulate a single lawyer's data.
+  // ... (keep your lawyer object and other code the same) ...
   const lawyer = {
     name: "Adv. Amit Sharma",
     specialty: "Criminal Lawyer",
     location: "Pimpri-Chinchwad, Pune",
     experience: "12 Years",
     fees: "₹2000 per consultation",
-    bio: "Adv. Amit Sharma is a highly experienced criminal defense lawyer with a success rate of 95%. He specializes in bail matters, cyber crime, and property disputes.",
+    bio: "Adv. Amit Sharma is a highly experienced criminal defense lawyer...",
     image: "https://i.pravatar.cc/150?img=11"
+  };
+
+  // State for form inputs
+  const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
+
+  const handleBooking = () => {
+    if (!date || !time) {
+      alert("Please select a date and time!");
+      return;
+    }
+
+    // 1. Create the Appointment Object
+    const newAppointment = {
+      id: Date.now(), // Unique ID based on time
+      lawyer: lawyer.name,
+      date: date,
+      time: time,
+      status: "Pending"
+    };
+
+    // 2. Get existing appointments from Local Storage (or start empty)
+    const existingAppointments = JSON.parse(localStorage.getItem("myAppointments")) || [];
+
+    // 3. Add the new one
+    existingAppointments.push(newAppointment);
+
+    // 4. Save back to Local Storage
+    localStorage.setItem("myAppointments", JSON.stringify(existingAppointments));
+
+    alert("Booking Successful! Redirecting to Dashboard...");
+    navigate('/user-dashboard'); // Go to dashboard to see it
   };
 
   return (
     <div className="details-container">
-      <div className="profile-header">
-        <img src={lawyer.image} alt={lawyer.name} className="profile-img-large" />
-        <div className="profile-info">
-          <h1>{lawyer.name}</h1>
-          <span className="badge-lg">{lawyer.specialty}</span>
-          <p className="location-text">📍 {lawyer.location}</p>
-          <p>💼 {lawyer.experience} Experience</p>
-          <p className="fees-text">💰 {lawyer.fees}</p>
-        </div>
-      </div>
+       {/* ... (Keep Header and Left Section exactly the same) ... */}
+       
+       <div className="profile-header">
+          {/* ... same header code ... */}
+          <img src={lawyer.image} alt={lawyer.name} className="profile-img-large" />
+          <div className="profile-info">
+             <h1>{lawyer.name}</h1>
+             {/* ... etc ... */}
+          </div>
+       </div>
 
-      <div className="details-body">
-        <div className="left-section">
-          <h3>About Me</h3>
-          <p>{lawyer.bio}</p>
-          
-          <h3>Practice Areas</h3>
-          <ul className="tags-list">
-            <li>Criminal Defense</li>
-            <li>Cyber Crime</li>
-            <li>Bail Matters</li>
-            <li>Fraud Cases</li>
-          </ul>
-        </div>
+       <div className="details-body">
+         <div className="left-section">
+            {/* ... same bio code ... */}
+            <h3>About Me</h3>
+            <p>{lawyer.bio}</p>
+         </div>
 
-        {/* Booking Form Side Panel */}
+        {/* --- UPDATE THIS BOOKING PANEL --- */}
         <div className="booking-panel">
           <h3>Book an Appointment</h3>
           <form>
             <label>Select Date</label>
-            <input type="date" className="booking-input" />
+            <input 
+              type="date" 
+              className="booking-input" 
+              onChange={(e) => setDate(e.target.value)}
+            />
             
             <label>Select Time</label>
-            <select className="booking-input">
-              <option>10:00 AM - 11:00 AM</option>
-              <option>02:00 PM - 03:00 PM</option>
-              <option>05:00 PM - 06:00 PM</option>
+            <select 
+              className="booking-input"
+              onChange={(e) => setTime(e.target.value)}
+            >
+              <option value="">Select a Slot</option>
+              <option value="10:00 AM">10:00 AM - 11:00 AM</option>
+              <option value="02:00 PM">02:00 PM - 03:00 PM</option>
+              <option value="05:00 PM">05:00 PM - 06:00 PM</option>
             </select>
             
-            <button type="button" className="confirm-btn" onClick={() => alert("Booking Request Sent!")}>
+            <button type="button" className="confirm-btn" onClick={handleBooking}>
               Confirm Booking
             </button>
           </form>

@@ -2,6 +2,7 @@ import React from 'react';
 import Hero from '../components/Hero';
 import PracticeAreas from '../components/PracticeAreas';
 import FeaturedLawyers from '../components/FeaturedLawyers';
+import About from '../components/About';
 
 const Home = () => {
   return (
@@ -14,6 +15,7 @@ const Home = () => {
       
       {/* 3. Top Lawyers Grid */}
       <FeaturedLawyers />
+      <About />
     </div>
   );
 };
