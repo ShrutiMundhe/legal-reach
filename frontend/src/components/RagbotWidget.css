@@ -1,0 +1,149 @@
+.rag-fab {
+  position: fixed;
+  right: 22px;
+  bottom: 24px;
+  width: 78px;
+  height: 78px;
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(135deg, #111827, #1d4ed8);
+  color: #fff;
+  font-size: 34px;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.3);
+  z-index: 9999;
+}
+
+.rag-panel {
+  position: fixed;
+  right: 20px;
+  bottom: 114px;
+  width: 560px;
+  max-width: calc(100vw - 26px);
+  background: #fff;
+  border-radius: 16px;
+  border: 1px solid #dbe3f1;
+  box-shadow: 0 20px 50px rgba(15, 23, 42, 0.25);
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.rag-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 18px;
+  background: #0f172a;
+  color: #fff;
+  font-size: 21px;
+  font-weight: 700;
+}
+
+.rag-mode {
+  font-size: 13px;
+  color: #bfdbfe;
+  border: 1px solid #1d4ed8;
+  border-radius: 999px;
+  padding: 4px 10px;
+}
+
+.rag-intro {
+  padding: 14px 18px;
+  font-size: 16px;
+  line-height: 1.7;
+  color: #334155;
+  background: #f8fafc;
+}
+
+.rag-upload-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 12px 18px 0 18px;
+}
+
+.rag-upload-label {
+  flex: 1;
+  border: 1px dashed #93c5fd;
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-size: 14px;
+  color: #1e3a8a;
+  background: #eff6ff;
+  cursor: pointer;
+}
+
+.rag-upload-label input {
+  display: none;
+}
+
+.rag-clear-btn {
+  border: none;
+  background: #fee2e2;
+  color: #b91c1c;
+  border-radius: 10px;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.rag-doc-tag {
+  margin: 10px 18px 0 18px;
+  font-size: 14px;
+  color: #065f46;
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.rag-body {
+  padding: 14px 18px 18px 18px;
+}
+
+.rag-textarea {
+  width: 100%;
+  border: 1px solid #cbd5e1;
+  border-radius: 10px;
+  padding: 14px;
+  resize: vertical;
+  outline: none;
+  font-size: 17px;
+}
+
+.rag-ask-btn {
+  margin-top: 12px;
+  width: 100%;
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  background: #0f172a;
+  color: #fff;
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.rag-ask-btn:disabled {
+  background: #94a3b8;
+  cursor: not-allowed;
+}
+
+.rag-error {
+  margin-top: 10px;
+  color: #b91c1c;
+  font-size: 15px;
+}
+
+.rag-answer {
+  margin-top: 12px;
+  border: 1px solid #dbe3f1;
+  border-radius: 10px;
+  padding: 14px;
+  max-height: 320px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #0f172a;
+  background: #f8fafc;
+}

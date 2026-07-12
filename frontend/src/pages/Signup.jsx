@@ -1,0 +1,150 @@
+import React, { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import API_BASE_URL from '../utils/config';
+import './Login.css';
+
+const Signup = () => {
+  const navigate = useNavigate();
+  const [selectedRole, setSelectedRole] = useState('client');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleRoleClick = (role) => {
+    if (role === 'lawyer') {
+      navigate('/lawyer-register');
+    } else {
+      setSelectedRole('client');
+    }
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/auth/register`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, role: 'client' }),
+      });
+      const data = await res.json();
+      
+      if (res.ok) {
+        alert("OTP sent to your email. Please verify.");
+        navigate('/verify-otp', { state: { email: formData.email } });
+      } else {
+        alert(data.message || "Signup Failed");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Backend not connected");
+    }
+  };
+
+  return (
+    <div className="auth-container">
+      <div className="auth-box">
+        <h2>Create Account</h2>
+        
+        <div style={{ 
+          display: 'flex', 
+          gap: '10px', 
+          marginBottom: '30px',
+          padding: '5px',
+          backgroundColor: '#f0f0f0',
+          borderRadius: '10px'
+        }}>
+          <button
+            type="button"
+            onClick={() => handleRoleClick('client')}
+            style={{
+              flex: 1,
+              padding: '12px',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontWeight: '600',
+              backgroundColor: selectedRole === 'client' ? '#1e3a8a' : 'transparent',
+              color: selectedRole === 'client' ? 'white' : '#666',
+              transition: 'all 0.3s'
+            }}
+          >
+            👤 Client
+          </button>
+          <button
+            type="button"
+            onClick={() => handleRoleClick('lawyer')}
+            style={{
+              flex: 1,
+              padding: '12px',
+              border: 'none',
+              borderRadius: '8px',
+              cursor: 'pointer',
+              fontWeight: '600',
+              backgroundColor: 'transparent',
+              color: '#666',
+              transition: 'all 0.3s'
+            }}
+          >
+            ⚖️ Lawyer
+          </button>
+        </div>
+
+        <form onSubmit={handleSubmit}>
+          <div style={{ marginBottom: '15px' }}>
+            <label style={{ display: 'block', marginBottom: '5px' }}>Name</label>
+            <input 
+              name="name" 
+              placeholder="Full Name" 
+              onChange={handleChange} 
+              required 
+              className="form-control"
+              style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
+            />
+          </div>
+
+          <div style={{ marginBottom: '15px' }}>
+            <label style={{ display: 'block', marginBottom: '5px' }}>Email</label>
+            <input 
+              name="email" 
+              type="email" 
+              placeholder="Email Address" 
+              onChange={handleChange} 
+              required 
+              className="form-control"
+              style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
+            />
+          </div>
+
+          <div style={{ marginBottom: '15px' }}>
+            <label style={{ display: 'block', marginBottom: '5px' }}>Password</label>
+            <input 
+              name="password" 
+              type="password" 
+              placeholder="Password" 
+              onChange={handleChange} 
+              required 
+              className="form-control"
+              style={{ width: '100%', padding: '10px', borderRadius: '5px', border: '1px solid #ccc' }}
+            />
+          </div>
+
+          <button type="submit" className="auth-btn" style={{ marginTop: '10px', width: '100%' }}>
+            Sign Up as Client
+          </button>
+        </form>
+        
+        <p style={{ marginTop: '15px', textAlign: 'center' }}>
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default Signup;
